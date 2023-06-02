@@ -10,10 +10,11 @@ functions:
   hello:
     handler: handler.hello
     layers:
-      - arn:aws:lambda:us-west-1:184161586896:layer:opentelemetry-collector-amd64-0_1_0:1
+      - arn:aws:lambda:us-west-1:184161586896:layer:opentelemetry-python-0_1_0:1
     environment:
-      OPENTELEMETRY_COLLECTOR_CONFIG_FILE: /var/task/config.yaml
-      LS_ACCESS_TOKEN: <access token>
+      AWS_LAMBDA_EXEC_WRAPPER: /opt/otel-instrument
+      OTEL_EXPORTER_OTLP_TRACES_ENDPOINT: https://ingest.lightstep.com/traces/otlp/v0.9
+      OTEL_EXPORTER_OTLP_METRICS_ENDPOINT: https://ingest.lightstep.com/metrics/otlp/v0.9
+      OTEL_EXPORTER_OTLP_TRACES_HEADERS: "lightstep-access-token=<token>"
+      OTEL_EXPORTER_OTLP_METRICS_HEADERS: "lightstep-access-token=<token>"
 
-plugins:
-  - serverless-python-requirements
